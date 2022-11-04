@@ -1,0 +1,1 @@
+print("test, test2".split(','))

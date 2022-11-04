@@ -1,0 +1,9 @@
+element describer
+
+latein übersetzer
+
+latein lerner
+
+suchfeld_solver
+    mit google drive link zum Bild, den link an den server schicken, dort das bild herunterladen, die auswertung durchführen und zurückschicken (alles über Socket) dann das Bild am server wieder löschen
+    

@@ -1,0 +1,4 @@
+inquirer==2.10.0
+mysql_connector_repackaged==0.3.1
+rich==12.6.0
+sympy==1.10.1
