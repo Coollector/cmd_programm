@@ -1,0 +1,7 @@
+server/
+__pycache__/
+.vscode/
+commands/__pycache__/
+languages/__pycache__/
+ideas.txt
+test.py
