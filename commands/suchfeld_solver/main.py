@@ -8,6 +8,7 @@ import pandas as pd
 from rich import print
 from rich.traceback import install
 install(show_locals=True)
+import inquirer
 
 
 class main():
@@ -20,14 +21,11 @@ class main():
         user_input = str(user_input)
         self.app = app
         self.command = command
-        self.types = ['getImage', 'inputByHand',
-            'findWord', 'correct', "print"]
-        self.commands = self.types + ['help', 'menu', 'quit']
+        self.commands = ['help', 'menu', 'quit']
 
         credentials = self.app.user.execute(
             f"SELECT google_credentials FROM {self.app.user.username}")
-        self.credentials = [True, json.loads(
-            credentials[2:])] if credentials[:1] == "0" else create_credentials.create_credentials(self.app.user)
+        self.credentials = [True, credentials[2:]] if credentials[:1] == "0" else create_credentials.create_credentials(self.app.user)
 
         if not self.credentials[0]:
             print("[bold red]Please use a valid google_credentials json file.[/]")
@@ -35,6 +33,8 @@ class main():
         self.credentials = self.credentials[1]
 
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.credentials
+
+        client = vision.ImageAnnotatorClient()
 
         if not user_input.replace(" ", "") == "":
             user_input = user_input.split(" ")
@@ -54,9 +54,15 @@ class main():
                 print(repr(self.command.main_command.command))
                 return
 
+            prettie_cords_printer(Suchsel(client, inquirer.prompt([inquirer.Text("lines", "How many vertical lines are in the word search?")])["lines"], image).searchforword(words))     
             
-            
+            return
+        
+        else:
+            print("[bold red]This command is only for inline use[/]")
+            return
 
+        self.suchsel = None
         self.running = True
         print('\n\n')
         print(self.menu())
@@ -98,10 +104,9 @@ class main():
 
 
 class Suchsel():
-    def __init__(self, image_path = None, chars:list=[]):
-        if image_path != None:
-            self.chars = get
-
+    def __init__(self, client, lines, image_path):
+        self.chars = gettext(image_path, lines, client)
+        
 
 
     def getdirections(self, i, j, length):
@@ -197,10 +202,11 @@ class Suchsel():
 
 
 
-def gettext(path, filename, lines):
+def gettext(path, lines, client, filename = None):
     chars = []
     row = []
-    with io.open(os.path.join(path, filename), 'rb') as image_file:
+    path = os.path.join(path, filename) if filename is not None else path
+    with io.open(path, 'rb') as image_file:
         content = image_file.read()
 
     image = vision.types.Image(content=content)
