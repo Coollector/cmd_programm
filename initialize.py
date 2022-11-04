@@ -10,6 +10,7 @@ import argparse
 import inquirer
 from rich import print
 from rich.traceback import install
+
 install(show_locals=True)
 from tqdm import tqdm
 
@@ -37,16 +38,20 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-    
+
+
 def create_settings():
     if not os.path.exists("settings.py"):
-        print("[italic yellow]There is no settings.py file.\nDo you want to create it?[/]")
+        print(
+            "[italic yellow]There is no settings.py file.\nDo you want to create it?[/]"
+        )
         create = inquirer.prompt([inquirer.confirm("create")])["create"]
         if create:
             with open(f"{os.getcwd()}\settings.py", "w") as f:
                 f.write(
                     f"from app import command\n\ncommand_list = []\n\nhost = '162.55.212.105'\noffline_check_tuple = ('8.8.8.8', 53)\n\napp_name = 'Your apps name'\napp_description = 'Description for your app'\nprefix = '/'\t# prefix for your main commands"
                 )
+
 
 def new_language():
     if args.newLanguage is not None:
@@ -61,11 +66,17 @@ def new_language():
 def new_command():
     if args.newCommand:
         if not os.path.exists("settings.py"):
-            print("[bold red]You can not create a command without a settings.py file[/]")
+            print(
+                "[bold red]You can not create a command without a settings.py file[/]"
+            )
             quit()
 
         command_direc_name = inquirer.prompt(
-            [inquirer.Text("direc_name", "What do you want to name the command_directory")]
+            [
+                inquirer.Text(
+                    "direc_name", "What do you want to name the command_directory"
+                )
+            ]
         )
 
         if os.path.exists(f"commands\{command_direc_name['direc_name']}"):
@@ -83,9 +94,12 @@ def new_command():
 
         command_settings = inquirer.prompt(
             [
-                inquirer.Text("command_name", "What do you want to call the main command"),
                 inquirer.Text(
-                    "command_description", "What should be the description for your command"
+                    "command_name", "What do you want to call the main command"
+                ),
+                inquirer.Text(
+                    "command_description",
+                    "What should be the description for your command",
                 ),
                 inquirer.Text(
                     "command_help",
@@ -115,7 +129,8 @@ def new_command():
             sub_command_settings = inquirer.prompt(
                 [
                     inquirer.Text(
-                        "command_name", f"What do you want to call the {i+1}.  subcommand"
+                        "command_name",
+                        f"What do you want to call the {i+1}.  subcommand",
                     ),
                     inquirer.Text(
                         "command_description",
@@ -132,7 +147,10 @@ def new_command():
         os.makedirs(f"commands\{command_direc_name['direc_name']}")
 
         # to make sure the file exists
-        open(f"{os.getcwd()}\commands\\{command_direc_name['direc_name']}\__init__.py", "w")
+        open(
+            f"{os.getcwd()}\commands\\{command_direc_name['direc_name']}\__init__.py",
+            "w",
+        )
 
         with open(
             f"{os.getcwd()}\commands\\{command_direc_name['direc_name']}\main.py", "w"
@@ -159,13 +177,18 @@ def new_command():
                 f"\n\n\nfrom commands.{command_direc_name['direc_name']} import main as {import_name}\n\ncommand_list.append(\n\tcommand([\n\t'{command_settings['command_name']}',\n\t'{command_settings['command_description']}',\n\t'{command_settings['command_help']}'\n\t],\n\t{neue_zeile.join([str(sub_command) for sub_command in sub_commands])},\n\t{import_name}.main(), {str(offline)}))"
             )
 
+
 def distributor(i):
     if i == 0:
         create_settings()
-    elif i == 1 or i == 2:
+    elif i == 2:
         new_language()
-    else:
+    elif i == 8:
         new_command()
+    else:
+        return
+    return
+
 
 for i in tqdm(range(10 if args.newCommand else 3)):
     time.sleep(2)
