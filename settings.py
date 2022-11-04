@@ -64,6 +64,6 @@ command_list.append(
 )
 
 
-# from commands.suchfeld_solver import main as searchForWord
+from commands.suchfeld_solver import main as searchForWord
 
-# command_list.append(command(['searchForWord', 'Initializes a path or userinput and searches for given words', '{prefix}searchForWord path {path to image} {words, sepererated by a comma: ','}'], [['getImage', 'Initializes a image to search for words in it', 'getImage {path to your image}'], ['inputByHand', 'Intitializes every character by hand', 'inputByHand {all characters inputed by Hand}'], ['findWord', 'finds the given word or words in the first initialized field (from image or from Hand)', "findWord {your word or words (seperated by a comma: ',')}"], ["correct", "you can correct the existing fields", "correct {(row, column, character)}"], ["print", "prints the existing field", "print"]], searchForWord.main(), False))
+command_list.append(command(['searchForWord', 'Initializes a path or userinput and searches for given words', "{prefix}searchForWord path {path to image} {words, sepererated by a comma: ','}"], [], searchForWord.main(), False))
