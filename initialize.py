@@ -7,10 +7,7 @@ import argparse
 import inquirer
 from rich import print
 from rich.traceback import install
-
 install(show_locals=True)
-import mysql.connector
-from mysql.connector import Error
 
 from app import command
 
