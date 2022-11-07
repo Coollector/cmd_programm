@@ -49,7 +49,7 @@ def create_settings():
         if create:
             with open(f"{os.getcwd()}\settings.py", "w") as f:
                 f.write(
-                    f"from app import command\n\ncommand_list = []\n\nhost = '162.55.212.105'\noffline_check_tuple = ('8.8.8.8', 53)\n\napp_name = 'Your apps name'\napp_description = 'Description for your app'\nprefix = '/'\t# prefix for your main commands"
+                    f"from app import command\n\ncommand_list = []\n\nhost = '162.55.212.105'\noffline_check_tuple = ('8.8.8.8', 53)\n\napp_name = 'Your apps name'\napp_description = 'Description for your app'\nprefix = '/'    # prefix for your main commands"
                 )
 
 
@@ -156,7 +156,7 @@ def new_command():
             f"{os.getcwd()}\commands\\{command_direc_name['direc_name']}\main.py", "w"
         ) as f:
             f.write(
-                f"class main():\n\tdef __init__(self):\n\t\tself.app = None\n\t\tself.command = None\n\t\tself.running = False\n\n\tdef run(self, app, command, user_input):\n\t\tself.app = app\n\t\tself.command = command\n\t\tself.types = {str([str(elem[0]) for elem in sub_commands])}\n\t\tself.commands = self.types + ['help', 'menu', 'quit']\n\n\t\t# code for direct access goes here (user_input contains the whole entered line)\n\n\t\tself.running = True\n\t\tprint('\\n\\n')\n\t\tprint(self.menu())\n\n\t\twhile self.running:\n\t\t\tprint('\\n\\n')\n\t\t\tself.handle(input())\n\n\t\treturn\n\n\n\tdef help(self):\n\t\treturn repr(self.command)\n\n\tdef menu(self):\n\t\treturn str(self.command)\n\n\tdef quit(self):\n\t\tself.running = False\n\n\tdef handle(self, user:str):\n\t\tuser_input = user.split(' ')\n\t\tcommand = user_input[0]\n\t\tif command not in self.commands:\n\t\t\tprint('Please enter a valid command')\n\t\t\tprint(self.menu())\n\t\t\treturn\n\t\tif command == 'help':\n\t\t\tprint(self.help())\n\t\t\treturn\n\t\telif command == 'menu':\n\t\t\tprint(self.menu())\n\t\t\treturn\n\t\telif command == 'quit':\n\t\t\tself.quit()\n\t\t\treturn\n\t\telse:\n\t\t\t# here go your custom commands\n\t\t\tprint('[italic red]Not yet implemented command[/]')\n\t\t\treturn"
+                f"class main():\n    def __init__(self):\n        self.app = None\n        self.command = None\n        self.running = False\n\n    def run(self, app, command, user_input):\n        self.app = app\n        self.command = command\n        self.types = {str([str(elem[0]) for elem in sub_commands])}\n        self.commands = self.types + ['help', 'menu', 'quit']\n\n        # code for direct access goes here (user_input contains the whole entered line)\n\n        self.running = True\n        print('\\n\\n')\n        print(self.menu())\n\n        while self.running:\n            print('\\n\\n')\n            self.handle(input())\n\n        return\n\n\n    def help(self):\n        return repr(self.command)\n\n    def menu(self):\n        return str(self.command)\n\n    def quit(self):\n        self.running = False\n\n    def handle(self, user:str):\n        user_input = user.split(' ')\n        command = user_input[0]\n        if command not in self.commands:\n            print('Please enter a valid command')\n            print(self.menu())\n            return\n        if command == 'help':\n            print(self.help())\n            return\n        elif command == 'menu':\n            print(self.menu())\n            return\n        elif command == 'quit':\n            self.quit()\n            return\n        else:\n            # here go your custom commands\n            print('[italic red]Not yet implemented command[/]')\n            return"
             )
 
         import_lib_object = implib.import_module("settings")
@@ -172,9 +172,9 @@ def new_command():
             data = f.read()
             if "# here are the commands, created with initialize.py" not in data:
                 f.write("\n\n\n# here are the commands, created with initialize.py")
-            neue_zeile = "\n\t"
+            neue_zeile = "\n    "
             f.write(
-                f"\n\n\nfrom commands.{command_direc_name['direc_name']} import main as {import_name}\n\ncommand_list.append(\n\tcommand([\n\t'{command_settings['command_name']}',\n\t'{command_settings['command_description']}',\n\t'{command_settings['command_help']}'\n\t],\n\t{neue_zeile.join([str(sub_command) for sub_command in sub_commands])},\n\t{import_name}.main(), {str(offline)}))"
+                f"\n\n\nfrom commands.{command_direc_name['direc_name']} import main as {import_name}\n\ncommand_list.append(\n    command([\n    '{command_settings['command_name']}',\n    '{command_settings['command_description']}',\n    '{command_settings['command_help']}'\n    ],\n    {neue_zeile.join([str(sub_command) for sub_command in sub_commands])},\n    {import_name}.main(), {str(offline)}))"
             )
 
 
