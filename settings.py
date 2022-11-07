@@ -64,11 +64,11 @@ command_list.append(
 )
 
 
-from commands.suchfeld_solver import main as searchForWord
+# from commands.suchfeld_solver import main as searchForWord
 
-command_list.append(command(['searchForWord', 'Initializes a path or userinput and searches for given words', "{prefix}searchForWord path {path to image} {words, sepererated by a comma: ','}"], [], searchForWord.main(), False))
+# command_list.append(command(['searchForWord', 'Initializes a path or userinput and searches for given words', "{prefix}searchForWord path {path to image} {words, sepererated by a comma: ','}"], [], searchForWord.main(), False))
 
 
-from commands.latin import main as latin
+# from commands.latin import main as latin
 
-command_list.append(command(["latin", "translates everything from latin and gives you detailed information about the translation", "{prefix}latin {latin word}"], [], latin.main(), False))
+# command_list.append(command(["latin", "translates everything from latin and gives you detailed information about the translation", "{prefix}latin {latin word}"], [], latin.main(), False))
