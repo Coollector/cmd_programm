@@ -99,7 +99,7 @@ class main:
             for i in str(ergebnis):
                 if not i in numbs:
                     try:
-                        calculated = f" [bold green](=[/][italic yellow] {int(ergebnis)}[/] [bold green])[/]"
+                        calculated = f" [bold green](=[/][italic yellow] {self.safe_eval(str(ergebnis))}[/] [bold green])[/]"
                     except:
                         pass
                     break
@@ -113,3 +113,11 @@ class main:
                 f"[bold red]Please refer to help of the command:[/]\n\n[italic green]{repr(self.command.main_command.command_help)}[/]"
             )
             return
+    
+    def safe_eval(inp_str):
+        if not isinstance(inp_str, str):
+            return inp_str
+        try:
+            return eval(inp_str, {'__builtins__': {}})
+        except SyntaxError:
+            return inp_str
